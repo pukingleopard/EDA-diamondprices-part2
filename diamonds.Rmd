@@ -1,0 +1,25 @@
+---
+title: "Diamonds"
+author: "James Hamilton"
+date: "March 20, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+data(diamonds)
+```
+
+### Scatterplot price vs. x
+
+Ignored 8 items with x = 0, focused on X between 3.7 and 7.5 and
+price between 0 and 10000.
+```{r}
+ggplot(data = subset(diamonds, x > 0),
+       aes(x = x, y = price)) +
+  geom_point(alpha = 1/100) +
+  coord_cartesian(xlim = c(3.7,7.5), ylim = c(0,10000))
+```
+
