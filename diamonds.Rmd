@@ -67,6 +67,12 @@ corrdf <- with(diamonds, diamonds[ volume > 0 & volume <= 800, ])
 with(corrdf, cor.test(price, volume, data = corrdf))
 ```
 
+### New plot with subset of data
+```{r}
+ggplot(data = corrdf, aes(x = volume, y = price)) +
+  geom_point(alpha = 1/20) + 
+  stat_smooth(method = "lm", formula = y ~ x)
+```
 
 
 
