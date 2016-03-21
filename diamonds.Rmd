@@ -52,6 +52,15 @@ filter(diamonds, price < quantile(diamonds$price, probs = c(.99))) %>%
     scale_y_log10() 
 ```
 
+### Plot price vs. volume
+First calculate the volume and save it, then make the plot with not mods yet.
+```{r}
+diamonds$volume <- with(diamonds, x * y * z)
+
+ggplot(data = diamonds, aes(x = volume, y = price)) +
+  geom_point()
+```
+
 
 
 
