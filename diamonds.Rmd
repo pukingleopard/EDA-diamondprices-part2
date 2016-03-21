@@ -61,6 +61,12 @@ ggplot(data = diamonds, aes(x = volume, y = price)) +
   geom_point()
 ```
 
+### Correlation of price and volume
+```{r}
+corrdf <- with(diamonds, diamonds[ volume > 0 & volume <= 800, ])
+with(corrdf, cor.test(price, volume, data = corrdf))
+```
+
 
 
 
