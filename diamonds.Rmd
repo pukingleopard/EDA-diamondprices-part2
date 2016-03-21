@@ -23,3 +23,36 @@ ggplot(data = subset(diamonds, x > 0),
   coord_cartesian(xlim = c(3.7,7.5), ylim = c(0,10000))
 ```
 
+### Correlation tests price vs. (x, y, z)
+```{r}
+cor.test(diamonds$price, diamonds$x)
+cor.test(diamonds$price, diamonds$y)
+cor.test(diamonds$price, diamonds$z)
+```
+
+### Plot price vs. depth
+```{r}
+ggplot(data = diamonds, aes(x = depth, y = price)) +
+  geom_point(alpha = 1/25) +
+  coord_cartesian(xlim = c(57.5,65)) +
+  scale_y_log10()
+```
+
+### Correlation of price vs. depth
+```{r}
+cor.test(diamonds$price, diamonds$depth)
+```
+
+### Plot price vs. carat - eliminating the top 1% of values from both variables
+```{r}
+filter(diamonds, price < quantile(diamonds$price, probs = c(.99))) %>%
+  filter(carat < quantile(diamonds$carat, probs = c(.99))) %>%
+  ggplot(aes(x = carat, y = price)) +
+    geom_point(alpha = 1/20) +
+    scale_y_log10() 
+```
+
+
+
+
+
