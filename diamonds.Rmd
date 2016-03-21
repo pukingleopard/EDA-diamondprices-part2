@@ -74,6 +74,19 @@ ggplot(data = corrdf, aes(x = volume, y = price)) +
   stat_smooth(method = "lm", formula = y ~ x)
 ```
 
+### Create diamondsByClarity using dplyr
+```{r}
+diamondsByClarity <- diamonds %>%
+  group_by(clarity) %>%
+  summarise(
+    mean_price = mean(price),
+    median_price = median(price),
+    min_price = min(price),
+    max_price = max(price),
+    n = n()
+  )
+```
+
 
 
 
