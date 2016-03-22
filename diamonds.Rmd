@@ -108,9 +108,49 @@ grid.arrange(p1, p2)
 
 ### Gapminder plots
 ```{r}
-electricitypp <- read.csv("Indicator_Residential electricity consumption per person.csv")
-electricitytotal <- read.csv("Indicator_Residential electricity consumption total.csv")
+library(tidyr)
+electricitypp <- read.csv("Indicator_Residential electricity consumption per person.csv", row.names = NULL, stringsAsFactors = FALSE)
+electricitytotal <- read.csv("Indicator_Residential electricity consumption total.csv", row.names = NULL, stringsAsFactors = FALSE)
 
+ggplot(electricitypp, aes(y = Country, x = X2008)) +
+  geom_point()
+
+electricitypp.tidy <- gather(electricitypp, "Year", "kwH", 2:50)
+electricitypp.tidy$Year <- substr(electricitypp.tidy$Year, 2, 5)
+
+electricitypp.summary <- electricitypp.tidy %>%
+  filter(!is.na(kwH)) %>%
+  group_by(Country) %>%
+  summarise(
+    min.e = min(kwH),
+    max.e = max(kwH),
+    avg.e = mean(kwH),
+    mid.e = median(kwH),
+    q25.e = quantile(kwH, probs = c(.25)),
+    q75.e = quantile(kwH, probs = c(.75)),
+    q95.e = quantile(kwH, probs = c(.95))
+  )
+
+ggplot(subset(electricitypp.summary, min.e > 1000), 
+  aes(y = min.e, x = reorder(Country, min.e))) +
+  geom_bar(stat = "identity") +
+  geom_point(data = subset(electricitypp.summary, min.e > 1000),
+    aes(y = max.e), color = "blue") +
+  theme(axis.text.x = element_text(size=10, angle=60, hjust = 1))
+
+ggplot(subset(electricitypp.summary, min.e > 250 & min.e <= 1000), 
+  aes(y = min.e, x = reorder(Country, min.e))) +
+  geom_bar(stat = "identity") +
+  geom_point(data = subset(electricitypp.summary, min.e > 250 & min.e <= 1000),
+    aes(y = max.e), color = "blue") +
+  theme(axis.text.x = element_text(size=6, angle=30, hjust = 1))
+
+ggplot(subset(electricitypp.summary, min.e <= 250), 
+  aes(y = min.e, x = reorder(Country, min.e))) +
+  geom_bar(stat = "identity") +
+    geom_point(data = subset(electricitypp.summary, min.e <= 250),
+    aes(y = max.e), color = "blue") +
+  theme(axis.text.x = element_text(size=6, angle=30, hjust = 1))
 ```
 
 
