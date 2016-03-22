@@ -106,6 +106,12 @@ p2 <- ggplot(data = diamonds_mp_by_color, aes(x = color, y = mean_price)) +
 grid.arrange(p1, p2)
 ```
 
+### Gapminder plots
+```{r}
+electricitypp <- read.csv("Indicator_Residential electricity consumption per person.csv")
+electricitytotal <- read.csv("Indicator_Residential electricity consumption total.csv")
+
+```
 
 
 
